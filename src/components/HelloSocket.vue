@@ -44,7 +44,11 @@ function onGreeting() {
 function onSendUserInfo() {
   if (!socket || myMsg.value === '') return;
   // 觸發事件
-  socket.emit('send_user_info', userProfile.value);
+  // emit args: https://socket.io/docs/v4/client-api/#socketemiteventname-args
+  // The ack argument is optional and will be called with the server answer.
+  socket.emit('send_user_info', userProfile.value, (response) => {
+    console.log('response: ', response);
+  });
 }
 function handleMessage(msg) {
   console.log(`Message from server: ${msg}`);
