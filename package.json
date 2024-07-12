@@ -1,0 +1,21 @@
+{
+  "name": "ry-socketio-client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.7.5",
+    "vue": "^3.4.29"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "autoprefixer": "^10.4.19",
+    "sass": "^1.77.6",
+    "vite": "^5.3.1"
+  },
+  "author": "Ryan Chen"
+}
