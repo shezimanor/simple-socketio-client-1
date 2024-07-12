@@ -3,6 +3,11 @@ import { io } from 'socket.io-client';
 import { onMounted, ref } from 'vue';
 
 const myMsg = ref('測試通訊的訊息');
+const userProfile = ref({
+  name: 'Ryan',
+  age: 25,
+  job: 'Software Engineer'
+});
 const serverMsg = ref('');
 const ioIsConnected = ref(false);
 
@@ -36,11 +41,17 @@ function onGreeting() {
   // 觸發事件
   socket.emit('greeting', 'Good to see you, Server!');
 }
+function onSendUserInfo() {
+  if (!socket || myMsg.value === '') return;
+  // 觸發事件
+  socket.emit('send_user_info', userProfile.value);
+}
 function handleMessage(msg) {
   console.log(`Message from server: ${msg}`);
   serverMsg.value = msg;
 }
 
+// Mounted
 onMounted(() => {
   console.log('onMounted');
 });
@@ -51,7 +62,18 @@ onMounted(() => {
     <div>系統：「{{ serverMsg }}」</div>
     <input type="text" v-model="myMsg" />
     <button @click="onSend" :disabled="!ioIsConnected">send</button>
+    <hr />
     <button @click="onGreeting" :disabled="!ioIsConnected">greeting</button>
+    <hr />
+    <pre>
+      User: {{ userProfile }}
+    </pre>
+    <input type="text" v-model="userProfile.name" />
+    <input type="number" v-model="userProfile.age" />
+    <input type="text" v-model="userProfile.job" />
+    <button @click="onSendUserInfo" :disabled="!ioIsConnected">
+      send user info
+    </button>
   </div>
 </template>
 
