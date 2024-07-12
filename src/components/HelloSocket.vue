@@ -43,11 +43,25 @@ function onGreeting() {
 }
 function onSendUserInfo() {
   if (!socket || myMsg.value === '') return;
-  // 觸發事件
   // emit args: https://socket.io/docs/v4/client-api/#socketemiteventname-args
   // The ack argument is optional and will be called with the server answer.
-  socket.emit('send_user_info', userProfile.value, (response) => {
-    console.log('response: ', response);
+  // 觸發事件
+  socket.emit('send-user-info', userProfile.value, (ack) => {
+    console.log('server response: ', ack);
+  });
+}
+function onSendTimeoutEvent() {
+  if (!socket || myMsg.value === '') return;
+  // emit args: https://socket.io/docs/v4/client-api/#sockettimeoutvalue
+  // 觸發事件
+  socket.timeout(3000).emit('timeout-event', (err, ack) => {
+    if (err) {
+      // the server did not acknowledge the event in the given delay
+      // 簡易的實現 err: Server side 不要寫 ackCallback 就好
+      console.error(err);
+    } else {
+      console.log('server response: ', ack);
+    }
   });
 }
 function handleMessage(msg) {
@@ -77,6 +91,10 @@ onMounted(() => {
     <input type="text" v-model="userProfile.job" />
     <button @click="onSendUserInfo" :disabled="!ioIsConnected">
       send user info
+    </button>
+    <hr />
+    <button @click="onSendTimeoutEvent" :disabled="!ioIsConnected">
+      send timeout event
     </button>
   </div>
 </template>
