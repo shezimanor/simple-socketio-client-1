@@ -31,6 +31,11 @@ function onSend() {
   // 觸發事件
   socket.emit('message', myMsg.value);
 }
+function onGreeting() {
+  if (!socket || myMsg.value === '') return;
+  // 觸發事件
+  socket.emit('greeting', 'Good to see you, Server!');
+}
 function handleMessage(msg) {
   console.log(`Message from server: ${msg}`);
   serverMsg.value = msg;
@@ -46,6 +51,7 @@ onMounted(() => {
     <div>系統：「{{ serverMsg }}」</div>
     <input type="text" v-model="myMsg" />
     <button @click="onSend" :disabled="!ioIsConnected">send</button>
+    <button @click="onGreeting" :disabled="!ioIsConnected">greeting</button>
   </div>
 </template>
 
