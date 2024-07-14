@@ -4,7 +4,8 @@ import { onMounted, ref } from 'vue';
 
 const ioIsConnected = ref(false);
 const myName = ref('Ryan');
-const serverMsg = ref('');
+const myScore = ref(100);
+const currentScoreBoard = ref({});
 
 const socket = io('http://localhost:3000');
 
@@ -15,25 +16,22 @@ socket.on('connect', () => {
   // 連線確認
   ioIsConnected.value = true;
   // 註冊事件
-  socket.on('message', handleMessage);
+  socket.on('user-score', showScoreBoard);
 });
 
 // SocketIO 斷線
 socket.on('disconnect', () => {
   console.log('Disconnected from server');
-  // 在斷線時移除事件監聽器
-  socket.off('message', handleMessage);
 });
 
 // Methods
-function onSend() {
+function onSendUserScore() {
   if (!socket || myName.value === '') return;
   // 觸發事件
-  socket.emit('message', myName.value);
+  socket.emit('user-score', { name: myName.value, score: myScore.value });
 }
-function handleMessage(msg) {
-  console.log(`Message from server: ${msg}`);
-  serverMsg.value = msg;
+function showScoreBoard(userScores) {
+  currentScoreBoard.value = userScores;
 }
 
 // Mounted
@@ -45,10 +43,18 @@ onMounted(() => {
 <template>
   <div>
     <div>Name: <input type="text" v-model="myName" /></div>
-    <button @click="onSend" :disabled="!ioIsConnected">send</button>
+    <div>Score: <input type="number" v-model="myScore" /></div>
+    <button @click="onSendUserScore" :disabled="!ioIsConnected">
+      Send Score
+    </button>
   </div>
   <hr />
-  <div>Server Msg: {{ serverMsg }}</div>
+  <div>
+    <div v-for="(item, key) in currentScoreBoard" :key="key">
+      <span>{{ item.name }}</span
+      >: <span>{{ item.score }}</span>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>
