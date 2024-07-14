@@ -1,6 +1,6 @@
 <script setup>
 import { io } from 'socket.io-client';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const myMsg = ref('測試通訊的訊息');
 const userProfile = ref({
@@ -9,9 +9,7 @@ const userProfile = ref({
   job: 'Software Engineer'
 });
 const serverMsg = ref('');
-const testR = reactive({ name: 'abc' });
 const ioIsConnected = ref(false);
-const pingCunt = ref(0);
 
 const socket = io('http://localhost:3000');
 
@@ -28,6 +26,8 @@ socket.on('connect', () => {
 // SocketIO 斷線
 socket.on('disconnect', () => {
   console.log('Disconnected from server');
+  // 斷線
+  ioIsConnected.value = false;
   // 在斷線時移除事件監聽器
   socket.off('message', handleMessage);
 });
@@ -73,7 +73,7 @@ function handleMessage(msg) {
 
 // Mounted
 onMounted(() => {
-  console.log('onMounted', testR);
+  console.log('onMounted');
 });
 </script>
 

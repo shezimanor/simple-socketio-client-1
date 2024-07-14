@@ -22,6 +22,8 @@ socket.on('connect', () => {
 // SocketIO 斷線
 socket.on('disconnect', () => {
   console.log('Disconnected from server');
+  // 斷線
+  ioIsConnected.value = false;
 });
 
 // Methods
