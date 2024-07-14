@@ -1,6 +1,6 @@
 <script setup>
 import { io } from 'socket.io-client';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 
 const myMsg = ref('測試通訊的訊息');
 const userProfile = ref({
@@ -9,7 +9,9 @@ const userProfile = ref({
   job: 'Software Engineer'
 });
 const serverMsg = ref('');
+const testR = reactive({ name: 'abc' });
 const ioIsConnected = ref(false);
+const pingCunt = ref(0);
 
 const socket = io('http://localhost:3000');
 
@@ -21,6 +23,11 @@ socket.on('connect', () => {
   ioIsConnected.value = true;
   // 註冊事件
   socket.on('message', handleMessage);
+  // 觸發事件: ping
+  setInterval(() => {
+    // volatile events
+    socket.volatile.emit('ping', pingCunt.value++);
+  }, 1000);
 });
 
 // SocketIO 斷線
@@ -71,7 +78,7 @@ function handleMessage(msg) {
 
 // Mounted
 onMounted(() => {
-  console.log('onMounted');
+  console.log('onMounted', testR);
 });
 </script>
 
