@@ -66,6 +66,9 @@ function onSendTimeoutEvent() {
     }
   });
 }
+function onCancelAllEvents() {
+  socket.emit('cancel-all-events');
+}
 function handleMessage(msg) {
   console.log(`Message from server: ${msg}`);
   serverMsg.value = msg;
@@ -97,6 +100,10 @@ onMounted(() => {
     <hr />
     <button @click="onSendTimeoutEvent" :disabled="!ioIsConnected">
       send timeout event
+    </button>
+    <hr />
+    <button @click.once="onCancelAllEvents" :disabled="!ioIsConnected">
+      cancel all events
     </button>
   </div>
 </template>
