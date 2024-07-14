@@ -1,10 +1,12 @@
 <script setup>
-import HelloSocket from './components/HelloSocket.vue';
+import HelloBoardcast from './components/HelloBoardcast.vue';
+// import HelloSocket from './components/HelloSocket.vue';
 </script>
 
 <template>
   <div>
     <h1>Hello SocketIO Client</h1>
-    <HelloSocket />
+    <HelloBoardcast />
+    <!-- <HelloSocket /> -->
   </div>
 </template>

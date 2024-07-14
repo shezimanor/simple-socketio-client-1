@@ -23,11 +23,6 @@ socket.on('connect', () => {
   ioIsConnected.value = true;
   // 註冊事件
   socket.on('message', handleMessage);
-  // 觸發事件: ping
-  setInterval(() => {
-    // volatile events
-    socket.volatile.emit('ping', pingCunt.value++);
-  }, 1000);
 });
 
 // SocketIO 斷線
