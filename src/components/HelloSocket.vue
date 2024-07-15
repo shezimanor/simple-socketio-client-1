@@ -70,7 +70,16 @@ function onSendTimeoutEvent() {
   });
 }
 function onCancelAllEvents() {
+  if (!socket) return;
   socket.emit('cancel-all-events');
+}
+function onGetItems() {
+  if (!socket) return;
+  // 觸發事件
+  socket.emit('get-items', (ack) => {
+    // 這個例子會接到錯誤訊息回傳
+    console.log('server response: ', ack);
+  });
 }
 function handleMessage(msg) {
   console.log(`Message from server: ${msg}`);
@@ -107,6 +116,10 @@ onMounted(() => {
     <hr />
     <button @click.once="onCancelAllEvents" :disabled="!ioIsConnected">
       cancel all events
+    </button>
+    <hr />
+    <button @click.once="onGetItems" :disabled="!ioIsConnected">
+      get items(test error)
     </button>
   </div>
 </template>
