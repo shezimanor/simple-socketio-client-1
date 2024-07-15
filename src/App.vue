@@ -2,7 +2,8 @@
 // import HelloBoardcast from './components/HelloBoardcast.vue';
 // import HelloSocketOnce from './components/HelloSocketOnce.vue';
 // import HelloSocket from './components/HelloSocket.vue';
-import HelloSocketRooms from './components/HelloSocketRooms.vue';
+// import HelloSocketRooms from './components/HelloSocketRooms.vue';
+import HelloSocketChatRoute from './components/HelloSocketChatRoute.vue';
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import HelloSocketRooms from './components/HelloSocketRooms.vue';
     <!-- <HelloBoardcast /> -->
     <!-- <HelloSocketOnce /> -->
     <!-- <HelloSocket /> -->
-    <HelloSocketRooms />
+    <!-- <HelloSocketRooms /> -->
+    <HelloSocketChatRoute />
   </div>
 </template>
