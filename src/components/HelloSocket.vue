@@ -19,6 +19,9 @@ socket.on('connect', () => {
   console.log(`Connected to server`);
   // 連線確認
   ioIsConnected.value = true;
+  socket.onAnyOutgoing((event, ...args) => {
+    console.log(`An emitting event with the name: ${event} and args: ${args}`);
+  });
   // 註冊事件
   socket.on('message', handleMessage);
 });
