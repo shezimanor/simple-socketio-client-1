@@ -5,6 +5,9 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    __VUE_OPTIONS_API__: 'false'
+  },
   plugins: [vue()],
   resolve: {
     // 路徑別名
